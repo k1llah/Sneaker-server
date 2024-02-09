@@ -19,29 +19,27 @@ model User {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   is_active  Boolean  @default(false)
-  userSneakers SneakerData[]
+  // userSneakers SneakerData[]
   profile Profile?
   @@map("users")
 }
 model SneakerData {
   id Int @id @default(autoincrement())
-  sneakerId Int @unique
-  userSneakers User @relation(fields: [sneakerId], references: [id])
   title String 
-  imageUrl String 
+  image_url String @map("imageUrl") 
   price Int
-  forWho GenSneak
+  forWho GenSneak @default(all)
+  // size String
   isFavourite Boolean @default(false)
-  isAddedToCart Boolean @default(false)
   typeOfSneakers Type  @default(all)
   isAvailabile Boolean @default(true)
-  isBuyed Boolean @default(false)
   @@map("SneakInfo")
 }
 enum GenSneak{
   forM
   forW
   unisex
+  all
 }
 enum Type{
   sneakers
