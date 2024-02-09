@@ -7,14 +7,14 @@ const router = Router()
 const sneakData =  [
   {
     "id": 1,
-    "title": "Мужские Кроссовки Nike Blazer Mid Suede",
+    "title": "Мужские Кроссовки Nike Blazer Mid Suede 1",
     "price": 12999,
     "imageUrl": "/sneakers/sneakers-1.jpg"
   },
 
   {
     "id": 2,
-    "title": "Мужские Кроссовки Nike Air Max 270",
+    "title": "Мужские Кроссовки Nike Air Max 270 1",
     "price": 15600,
     "imageUrl": "/sneakers/sneakers-2.jpg"
   },
@@ -26,55 +26,55 @@ const sneakData =  [
   },
   {
     "id": 4,
-    "title": "Кроссовки Puma X Aka Boku Future Rider",
+    "title": "Кроссовки Puma X Aka Boku Future Rider2",
     "price": 7800,
     "imageUrl": "/sneakers/sneakers-4.jpg"
   },
   {
     "id": 5,
-    "title": "Кроссовки Future Rider",
+    "title": "Кроссовки Future Rider3",
     "price": 9550,
     "imageUrl": "/sneakers/sneakers-5.jpg"
   },
   {
     "id": 6,
-    "title": "Кроссовки Black Edition",
+    "title": "Кроссовки Black Edition4",
     "price": 16999,
     "imageUrl": "/sneakers/sneakers-6.jpg"
   },
   {
     "id": 7,
-    "title": "Кроссовки Orange Boomb Edition",
+    "title": "Кроссовки Orange Boomb Edition5",
     "price": 7499,
     "imageUrl": "/sneakers/sneakers-7.jpg"
   },
   {
     "id": 8,
-    "title": "Кроссовки Nike Air Max 270",
+    "title": "Кроссовки Nike Air Max 2706",
     "price": 15600,
     "imageUrl": "/sneakers/sneakers-8.jpg"
   },
   {
     "id": 9,
-    "title": "Кроссовки Nike Air Force 1",
+    "title": "Кроссовки Nike Air Force 17",
     "price": 5900,
     "imageUrl": "/sneakers/sneakers-9.jpg"
   },
   {
     "id": 10,
-    "title": "Кроссовки Adidas Ultraboost",
+    "title": "Кроссовки Adidas Ultraboost8",
     "price": 11500,
     "imageUrl": "/sneakers/sneakers-10.jpg"
   },
   {
     "id": 11,
-    "title": "Кроссовки Puma Clyde All-Pro",
+    "title": "Кроссовки Puma Clyde All-Pro9",
     "price": 7600,
     "imageUrl": "/sneakers/sneakers-11.jpg"
   },
   {
     "id": 12,
-    "title": "Кроссовки Converse Chuck Taylor All-Star",
+    "title": "Кроссовки Converse Chuck Taylor All-Star4",
     "price": 13000,
     "imageUrl": "/sneakers/sneakers-12.jpg"
   }
@@ -97,12 +97,11 @@ router.get('/', function (req, res) {
       }
     }
     
-  // importData()
+   importData()
   res.send(sneakData)
 })
-router.get('/sortByPrice', function (req, res){
-  const data = prisma.sneakerData.findMany({
-    
+router.get('/sortByPrice', async (req, res) => {
+  const data = await prisma.sneakerData.findMany({ 
     orderBy: {
       price: 'asc'
     }
