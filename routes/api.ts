@@ -1,4 +1,4 @@
-import Router from 'express'
+import Router, { query } from 'express'
 import { PrismaClient} from '@prisma/client'
 const prisma = new PrismaClient()
 const router = Router()
@@ -62,7 +62,7 @@ const sneakData =  [
   },
   {
     "id": 10,
-    "title": "Кроссовки Adidas Ultraboost8",
+    "title": "Кроссовки Adidas Ultraboost 8",
     "price": 11500,
     "imageUrl": "/sneakers/sneakers-10.jpg"
   },
@@ -87,7 +87,7 @@ router.get('/', function (req, res) {
         await prisma.sneakerData.createMany({
           data: sneakersData.map(sneaker => ({
             title: sneaker.title as string,
-            image_url: sneaker.imageUrl as string,
+            imageUrl: sneaker.imageUrl as string,
             price: sneaker.price as number,
           })),
         });
@@ -100,13 +100,67 @@ router.get('/', function (req, res) {
    importData()
   res.send(sneakData)
 })
-router.get('/sortByPrice', async (req, res) => {
-  const data = await prisma.sneakerData.findMany({ 
+interface FilterOptions {
+  title?: any;
+}
+
+router.get('/?sortBy=sortBy-Price', async (req, res) => {
+  let filterOptions: FilterOptions = {};
+
+  if (req.query.search) {
+    filterOptions.title = {
+      contains: req.query.search 
+    };
+  }
+
+  const data = await prisma.sneakerData.findMany({
+    where: filterOptions,
     orderBy: {
       price: 'asc'
     }
-  })
-  console.log(data)
-  res.send({data})
-})
+  });
+  console.log(data);
+  res.send(data);
+});
+router.get('/?sortBy=sortBy-Price', async (req, res) => {
+  let filterOptions: FilterOptions = {};
+
+  if (req.query.search) {
+    filterOptions.title = {
+      contains: req.query.search 
+    };
+  }
+  console.log(filterOptions)
+
+  const data = await prisma.sneakerData.findMany({
+    where: filterOptions,
+    orderBy: {
+      price: 'desc' 
+    }
+  });
+  console.log(data);
+  res.send(data);
+});
+
+
+
+
+// router.get('/sortByPrice', async (req, res) => {
+//   const data = await prisma.sneakerData.findMany({ 
+//     orderBy: {
+//       price: 'asc'
+//     }
+//   })
+//   console.log(data)
+//   res.send(data)
+// })
+// router.get('/sortBy-Price', async (req, res) => {
+//   const data = await prisma.sneakerData.findMany({ 
+//     orderBy: {
+//       price: 'desc'
+//     }
+//   })
+//   console.log(data)
+//   res.send(data)
+// })
 export default router
