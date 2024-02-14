@@ -79,24 +79,27 @@ const sneakData = [
     imageUrl: "/sneakers/sneakers-12.jpg",
   },
 ];
-// async function importData() {
-//   try {
-//     const sneakersData = sneakData
+router.get("/import", async function (req, res) {
+async function importData() {
+  try {
+    const sneakersData = sneakData
 
-//       await prisma.sneakerData.createMany({
-//         data: sneakersData.map(sneaker => ({
-//           title: sneaker.title as string,
-//           imageUrl: sneaker.imageUrl as string,
-//           price: sneaker.price as number,
-//         })),
-//       });
-//       console.log('Data imported successfully');
-//     } catch (error) {
-//       console.error('Error importing data:', error);
-//     }
-//   }
+      await prisma.sneakerData.createMany({
+        data: sneakersData.map(sneaker => ({
+          title: sneaker.title as string,
+          imageUrl: sneaker.imageUrl as string,
+          price: sneaker.price as number,
+        })),
+      });
+      console.log('Data imported successfully');
+    } catch (error) {
+      console.error('Error importing data:', error);
+    }
+  }
 
-//  importData()
+ importData()
+res.send({})
+})
 router.get("/", async function (req, res) {
   let sneakData = [] as any;
   const sortBy = req.query.sortBy;
@@ -111,7 +114,7 @@ router.get("/", async function (req, res) {
   }
   const search = {} as any;
   if (title) {
-    search.where = { title: { contains: title } };
+    search.where = { title: { contains: title, mode: 'insensitive' }};
   }
   sneakData = await prisma.sneakerData.findMany({ ...sortObj, ...search });
   res.send(sneakData);
