@@ -15,7 +15,7 @@ model User {
   first_name  String?  @db.VarChar(35)
   last_name  String?  @db.VarChar(35)
   age        Int?
-  gender     Gender
+  gender     Gender   @default(notSelected)
   role       Role     @default(USER)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -81,6 +81,7 @@ enum Type {
 enum Gender {
   male
   female
+  notSelected
 }
 
 model Profile {

@@ -78,28 +78,28 @@ const sneakData = [
     price: 13000,
     imageUrl: "/sneakers/sneakers-12.jpg",
   },
-];
-router.get("/import", async function (req, res) {
-async function importData() {
-  try {
-    const sneakersData = sneakData
+   ];
+// router.get("/import", async function (req, res) {
+// async function importData() {
+//   try {
+//     const sneakersData = sneakData
 
-      await prisma.sneakerData.createMany({
-        data: sneakersData.map(sneaker => ({
-          title: sneaker.title as string,
-          imageUrl: sneaker.imageUrl as string,
-          price: sneaker.price as number,
-        })),
-      });
-      console.log('Data imported successfully');
-    } catch (error) {
-      console.error('Error importing data:', error);
-    }
-  }
+//       await prisma.sneakerData.createMany({
+//         data: sneakersData.map(sneaker => ({
+//           title: sneaker.title as string,
+//           imageUrl: sneaker.imageUrl as string,
+//           price: sneaker.price as number,
+//         })),
+//       });
+//       console.log('Data imported successfully');
+//     } catch (error) {
+//       console.error('Error importing data:', error);
+//     }
+//   }
 
- importData()
-res.send({})
-})
+//  importData()
+// res.send({})
+// })
 router.get("/", async function (req, res) {
   let sneakData = [] as any;
   const sortBy = req.query.sortBy;
@@ -120,4 +120,27 @@ router.get("/", async function (req, res) {
   res.send(sneakData);
 });
 
+
+
+router.post('/createUser', async function (req,res) {
+  const userData = req.body
+  let isError = {status:false, message:''}
+  try {
+     const user = await prisma.user.create({
+      
+      data: {
+        first_name: userData.name,
+        email: userData.email,
+        hash: userData.password,
+        created_at: new Date(),
+      },
+     })
+     res.json(user)
+  } catch(error){
+    isError.status = true
+    isError.message = error as string
+    console.error('Error creating user:', error);
+    res.status(500).send('Internal Server Error');
+  }
+})
 export default router;
