@@ -143,4 +143,24 @@ router.post('/createUser', async function (req,res) {
     res.status(500).send('Internal Server Error');
   }
 })
+router.post('/login', async function (req,res) {
+  const userData = req.body
+  try {
+    const user = await prisma.user.findFirst({
+      where:{
+        email: userData.email,
+        hash: userData.hash
+      }
+    })
+
+    if (user) {
+      res.status(200).json({ success: true, user: user });
+    } else {
+      res.status(401).json({ success: false, message: 'Неверный адрес электронной почты или пароль' });
+    }
+  } catch(error){
+    console.log(error)
+    res.status(500).json({ success: false, message: 'Произошла ошибка при попытке входа' });
+  }
+})
 export default router;
