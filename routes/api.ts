@@ -147,7 +147,6 @@ router.post("/login", async function (req, res) {
     const user = await prisma.user.findFirst({
       where: {
         email: userData.email,
-        hash: userData.hash,
       },
     });
 
@@ -171,13 +170,18 @@ router.post("/login", async function (req, res) {
 
 router.post("/get-data", async function (req, res) {
   const userInfo = req.body
+  const id = parseInt(userInfo.id);
   try {
-    const user = await prisma.user.findFirst({
+    const user = await prisma.user.findUnique({
       where: {
-        email: userInfo.email,
-        last_name: userInfo.last_name,
-        first_name: userInfo.first_name,
+        id: id,
+      uuid: userInfo.uuid
       },
+      select:{
+        first_name: true,
+        last_name: true,
+        email: true,
+      }
     });
     
     res.status(200).json({success: true, user: user}); 
