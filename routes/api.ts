@@ -78,7 +78,7 @@ const sneakData = [
     price: 13000,
     imageUrl: "/sneakers/sneakers-12.jpg",
   },
-   ];
+];
 // router.get("/import", async function (req, res) {
 // async function importData() {
 //   try {
@@ -114,53 +114,80 @@ router.get("/", async function (req, res) {
   }
   const search = {} as any;
   if (title) {
-    search.where = { title: { contains: title, mode: 'insensitive' }};
+    search.where = { title: { contains: title, mode: "insensitive" } };
   }
   sneakData = await prisma.sneakerData.findMany({ ...sortObj, ...search });
   res.send(sneakData);
 });
 
-
-
-router.post('/createUser', async function (req,res) {
-  const userData = req.body
-  let isError = {status:false, message:''}
+router.post("/createUser", async function (req, res) {
+  const userData = req.body;
+  let isError = { status: false, message: "" };
   try {
-     const user = await prisma.user.create({
-      
+    const user = await prisma.user.create({
       data: {
         first_name: userData.name,
         email: userData.email,
         hash: userData.password,
         created_at: new Date(),
       },
-     })
-     res.json(user)
-  } catch(error){
-    isError.status = true
-    isError.message = error as string
-    console.error('Error creating user:', error);
-    res.status(500).send('Internal Server Error');
+    });
+    res.json(user);
+  } catch (error) {
+    isError.status = true;
+    isError.message = error as string;
+    console.error("Error creating user:", error);
+    res.status(500).send("Internal Server Error");
   }
-})
-router.post('/login', async function (req,res) {
-  const userData = req.body
+});
+
+router.post("/login", async function (req, res) {
+  const userData = req.body;
   try {
     const user = await prisma.user.findFirst({
-      where:{
+      where: {
         email: userData.email,
-        hash: userData.hash
-      }
-    })
+        hash: userData.hash,
+      },
+    });
 
     if (user) {
       res.status(200).json({ success: true, user: user });
     } else {
-      res.status(401).json({ success: false, message: 'Неверный адрес электронной почты или пароль' });
+      res
+        .status(401)
+        .json({
+          success: false,
+          message: "Неверный адрес электронной почты или пароль",
+        });
     }
-  } catch(error){
-    console.log(error)
-    res.status(500).json({ success: false, message: 'Произошла ошибка при попытке входа' });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ success: false, message: "Произошла ошибка при попытке входа" });
   }
-})
+});
+
+router.post("/get-data", async function (req, res) {
+  const userInfo = req.body
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        email: userInfo.email,
+        last_name: userInfo.last_name,
+        first_name: userInfo.first_name,
+      },
+    });
+    
+    res.status(200).json({success: true, user: user}); 
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({
+        message: "Произошла ошибка при попытке получении данных",
+      });
+  }
+});
 export default router;
