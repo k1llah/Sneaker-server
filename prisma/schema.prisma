@@ -21,7 +21,7 @@ model User {
   updated_at DateTime @updatedAt
   is_active  Boolean  @default(false)
   profile    Profile?
-  isFavorite SneakerData[]
+  Favorite SneakerData[] 
   orders     orders[]
 
   @@map("users")
@@ -36,6 +36,7 @@ model SneakerData {
   forWho         GenSneak @default(all)
   typeOfSneakers Type     @default(all)
   isAvailabile   Boolean  @default(true)
+  isFavorite    Boolean @default(false)
   user           User[]  
   @@map("SneakInfo")
 }

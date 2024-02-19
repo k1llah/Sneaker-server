@@ -153,12 +153,10 @@ router.post("/login", async function (req, res) {
     if (user) {
       res.status(200).json({ success: true, user: user });
     } else {
-      res
-        .status(401)
-        .json({
-          success: false,
-          message: "Неверный адрес электронной почты или пароль",
-        });
+      res.status(401).json({
+        success: false,
+        message: "Неверный адрес электронной почты или пароль",
+      });
     }
   } catch (error) {
     console.log(error);
@@ -169,29 +167,57 @@ router.post("/login", async function (req, res) {
 });
 
 router.post("/get-data", async function (req, res) {
-  const userInfo = req.body
+  const userInfo = req.body;
   const id = parseInt(userInfo.id);
   try {
     const user = await prisma.user.findUnique({
       where: {
         id: id,
-      uuid: userInfo.uuid
+        uuid: userInfo.uuid,
       },
-      select:{
+      select: {
         first_name: true,
         last_name: true,
         email: true,
-      }
+      },
     });
-    
-    res.status(200).json({success: true, user: user}); 
+
+    res.status(200).json({ success: true, user: user });
   } catch (error) {
     console.log(error);
-    res
-      .status(500)
-      .json({
-        message: "Произошла ошибка при попытке получении данных",
-      });
+    res.status(500).json({
+      message: "Произошла ошибка при попытке получении данных",
+    });
   }
 });
+
+router.post("/add-to-favorites", async function (req, res) {
+  try {
+    const { userId, sneakerId } = req.body;
+
+    const updatedUser = await prisma.user.update({
+      where: { id: parseInt(userId) },
+      data: {
+        Favorite: {
+          connect: { id: Number(sneakerId) },
+        },
+      },
+      include: {
+        Favorite: true,
+      },
+    });
+
+    res.status(200).json({ success: true, user: updatedUser });
+  } catch (error) {
+    console.error("Ошибка при добавлении кроссовка в избранное:", error);
+    res.status(500).json({
+      success: false,
+      message: "Произошла ошибка при добавлении кроссовка в избранное",
+    });
+  }
+});
+
+
+
+router.get('/favorites')
 export default router;
