@@ -219,5 +219,23 @@ router.post("/add-to-favorites", async function (req, res) {
 
 
 
-router.get('/favorites')
+router.get('/favorites', async (req, res) => {
+  const idSneak = req.query.id
+  try{
+  const sneakersFavorites = await prisma.user.findMany({
+    where:{
+      id: Number(idSneak),
+    },
+    select:{
+      Favorite:true
+    }
+  })
+  if(sneakersFavorites){
+    res.status(200).send(sneakersFavorites)
+  }
+  }catch(error){
+    console.log(error)
+    res.status(500).send(error)
+  }
+  })
 export default router;
