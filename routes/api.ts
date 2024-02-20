@@ -124,15 +124,25 @@ router.post("/createUser", async function (req, res) {
   const userData = req.body;
   let isError = { status: false, message: "" };
   try {
-    const user = await prisma.user.create({
-      data: {
-        first_name: userData.name,
+    const mail = await prisma.user.findUnique({
+      where: {
         email: userData.email,
-        hash: userData.password,
-        created_at: new Date(),
-      },
-    });
-    res.json(user);
+      }
+    })
+    if (mail) {
+      // mail zaniat
+    } else {
+      const user = await prisma.user.create({
+        data: {
+          first_name: userData.name,
+          email: userData.email,
+          hash: userData.password,
+          created_at: new Date(),
+        },
+      });
+      res.json(user);
+    }
+
   } catch (error) {
     isError.status = true;
     isError.message = error as string;
