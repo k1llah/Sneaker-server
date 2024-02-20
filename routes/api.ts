@@ -219,14 +219,18 @@ router.post("/add-to-favorites", async function (req, res) {
 
 
 
-router.get('/favorites', async (req, res) => {
-  const idSneak = req.query.id
+router.post('/favorites-user', async (req, res) => {
+  const idUser = req.body.id
   try{
+    if (!idUser) {
+      return res.status(400).send("ID parameter is missing");
+    }
   const sneakersFavorites = await prisma.user.findMany({
     where:{
-      id: Number(idSneak),
+      id: Number(idUser),
     },
     select:{
+      id:true,
       Favorite:true
     }
   })
