@@ -252,4 +252,33 @@ router.post('/favorites-user', async (req, res) => {
     res.status(500).send(error)
   }
   })
+
+  router.post("/remove-from-favorites", async function (req, res) {
+    try {
+      const { userId, sneakerId } = req.body;
+      if(!userId){
+        res.status(400).send("ID parameter is missing");
+      }
+      const updatedUser = await prisma.user.update({
+        where: { id: parseInt(userId) },
+        data: {
+          Favorite: {
+            disconnect: { id: Number(sneakerId) },
+          },
+        },
+        include: {
+          Favorite: true,
+        },
+      });
+  
+      res.status(200).json({ success: true, user: updatedUser });
+    } catch (error) {
+      console.error("Ошибка при добавлении кроссовка в избранное:", error);
+      res.status(500).json({
+        success: false,
+        message: "Произошла ошибка при добавлении кроссовка в избранное",
+      });
+    }
+  });
+  
 export default router;
