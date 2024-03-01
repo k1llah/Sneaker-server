@@ -40,7 +40,7 @@ model SneakerData {
   sneakerId      Int? 
   imageUrl       String
   price          Int
-  sex            sexShoe @default(all)
+  sex            sexShoe 
   typeOfSneakers Type     @default(all)
   isAvailabile   Boolean  @default(true)
   user           User[]  

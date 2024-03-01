@@ -47,7 +47,7 @@ declare global {
   }
 }
 
-// middleware (фунция промежуточной обработки, которая срабатывает при любом запросе)
+// middleware (функция промежуточной обработки, которая срабатывает при любом запросе)
 const addTimestamp = () => {
   return (req:Request, res:Response, next:NextFunction) => {
     req.timeStamp = Date.now()
