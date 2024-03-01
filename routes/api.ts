@@ -90,29 +90,71 @@ const sneakData = [
     imageUrl: "/sneakers/sneakers-12.jpg",
     sex: "male",
   },
+  {
+    id: 13,
+    title: "Ботинки Dr martens",
+    price: 18000,
+    imageUrl: "/sneakers/martens.jpeg",
+    sex: "female",
+  },
+  {
+    id: 14,
+    title: "Кроссовки Blazer",
+    price: 12500,
+    imageUrl: "/sneakers/blaze.jpeg",
+    sex: "female",
+  },
+  {
+    id: 15,
+    title: "Кроссовки Converse",
+    price: 16000,
+    imageUrl: "/sneakers/conv.jpeg",
+    sex: "female",
+  },
+  {
+    id: 16,
+    title: "Кроссовки Air Max 95",
+    price: 22000,
+    imageUrl: "/sneakers/air.jpeg",
+    sex: "female",
+  },
+  {
+    id: 17,
+    title: "Кроссовки Vans double bump",
+    price: 13000,
+    imageUrl: "/sneakers/duble.jpeg",
+    sex: "female",
+  },
+  {
+    id: 18,
+    title: "Кроссовки Nike dunk low",
+    price: 13000,
+    imageUrl: "/sneakers/dunks.jpeg",
+    sex: "female",
+  },
 ];
-router.get("/import", async function (req, res) {
-async function importData() {
-  try {
-    const sneakersData = sneakData
+// router.get("/import", async function (req, res) {
+// async function importData() {
+//   try {
+//     const sneakersData = sneakData
 
-      await prisma.sneakerData.createMany({
-        data: sneakersData.map(sneaker => ({
-          title: sneaker.title as string,
-          imageUrl: sneaker.imageUrl as string,
-          price: sneaker.price as number,
-          sex: sneaker.sex as string
-        })),
-      });
-      console.log('Data imported successfully');
-    } catch (error) {
-      console.error('Error importing data:', error);
-    }
-  }
+//       await prisma.sneakerData.createMany({
+//         data: sneakersData.map(sneaker => ({
+//           title: sneaker.title as string,
+//           imageUrl: sneaker.imageUrl as string,
+//           price: sneaker.price as number,
+//           sex: sneaker.sex as string
+//         })),
+//       });
+//       console.log('Data imported successfully');
+//     } catch (error) {
+//       console.error('Error importing data:', error);
+//     }
+//   }
 
- importData()
-res.send({})
-})
+//  importData()
+// res.send({})
+// })
 router.get("/", async function (req, res) {
   let sneakData = [] as any;
   const sortBy = req.query.sortBy;
@@ -293,5 +335,33 @@ router.post('/favorites-user', async (req, res) => {
       });
     }
   });
+  router.get('/manSneakers', async function(req,res){
+    try{
+      const sneakers = await prisma.sneakerData.findMany({
+        where:{
+          sex: 'male'
+        }
+      })
+      res.status(200).send(sneakers)
+    }catch(error){
+      console.log(error)
+      res.status(500).send(error)
+    }
+    
+  })
+  router.get('/womanSneakers', async function(req,res){
+    try{
+      const sneakers = await prisma.sneakerData.findMany({
+        where:{
+          sex: 'female'
+        }
+      })
+      res.status(200).send(sneakers)
+    }catch(error){
+      console.log(error)
+      res.status(500).send(error)
+    }
+    
+  })
   
 export default router;
