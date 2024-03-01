@@ -23,7 +23,7 @@ model User {
   profile     Profile?
   Favorite   SneakerData[] 
   orders     orders[]
-  feedbackUser   feedback[]
+  feedbacks   feedback[]
 
   @@map("users")
 }
@@ -31,7 +31,7 @@ model feedback {
   id Int @id @default(autoincrement())
   authorId Int @unique
   feedBackText String 
-  feedback  User @relation(fields: [authorId], references: [id])
+  user  User @relation(fields: [authorId], references: [id])
 }
 
 model SneakerData {
