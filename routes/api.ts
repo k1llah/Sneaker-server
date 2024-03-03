@@ -363,5 +363,25 @@ router.post('/favorites-user', async (req, res) => {
     }
     
   })
-  
+  router.get('/sneaker', async function(req,res){
+    const idParam = req.query.id as string
+    let idSneak = parseInt(idParam)
+    
+    if (isNaN(idSneak)) {
+      return res.status(400).send('Invalid sneaker ID');
+  }
+
+    try{
+    const data = await prisma.sneakerData.findUnique({
+      where:{
+        id: idSneak,
+      },
+    })
+    console.log(data)
+    res.status(200).send(data)
+  } catch(error){
+    console.log(typeof(idSneak))
+    res.status(500).send(typeof(idSneak))
+  }
+  })
 export default router;
