@@ -11,6 +11,8 @@ const sneakData = [
     price: 10999,
     imageUrl: "/sneakers/NewBalance550.jpeg",
     sex: "male",
+    brand: "NewBalance",
+    color: "Белый",
   },
 
   {
@@ -19,6 +21,8 @@ const sneakData = [
     price: 15600,
     imageUrl: "/sneakers/NikeDunkLowRetroPRM.jpeg",
     sex: "male",
+    brand: "Nike",
+    color: "Серый",
   },
   {
     id: 3,
@@ -26,6 +30,8 @@ const sneakData = [
     price: 7800,
     imageUrl: "/sneakers/adidasSuperstar.jpeg",
     sex: "male",
+    brand: "Adidas",
+    color: "Белый",
   },
   {
     id: 4,
@@ -33,6 +39,8 @@ const sneakData = [
     price: 26700,
     imageUrl: "/sneakers/airMaxMen.jpeg",
     sex: "male",
+    brand: "Nike",
+    color: "Белый",
   },
   {
     id: 5,
@@ -40,6 +48,8 @@ const sneakData = [
     price: 11250,
     imageUrl: "/sneakers/ASICSBallaholicEX89.jpeg",
     sex: "male",
+    brand: "Asics",
+    color: "Бежевый",
   },
   {
     id: 6,
@@ -47,6 +57,8 @@ const sneakData = [
     price: 19990,
     imageUrl: "/sneakers/ConverseChuckTaylorAllStarAllTerrain.jpeg",
     sex: "male",
+    brand: "Converse",
+    color: "Черный",
   },
   {
     id: 7,
@@ -54,6 +66,8 @@ const sneakData = [
     price: 16099,
     imageUrl: "/sneakers/jordan.jpeg",
     sex: "male",
+    brand: "Nike",
+    color: "Белый, зеленый",
   },
   {
     id: 8,
@@ -61,13 +75,17 @@ const sneakData = [
     price: 22600,
     imageUrl: "/sneakers/NikeAirTrainer1Essential.jpeg",
     sex: "male",
+    brand: "Nike",
+    color: "Белый, Желтый",
   },
   {
     id: 9,
-    title: "Кроссовки Nike Air Force 17",
-    price: 5900,
-    imageUrl: "/sneakers/sneakers-9.jpg",
+    title: "Кеды Converse high",
+    price: 8900,
+    imageUrl: "/sneakers/converseHigh.jpeg",
     sex: "male",
+    brand: "Converse",
+    color: "Черный",
   },
   {
     id: 10,
@@ -75,6 +93,8 @@ const sneakData = [
     price: 13500,
     imageUrl: "/sneakers/PUMACAProMidTrail.jpeg",
     sex: "male",
+    brand: "Puma",
+    color: "Черный",
   },
   {
     id: 11,
@@ -82,6 +102,8 @@ const sneakData = [
     price: 25000,
     imageUrl: "/sneakers/TheNorthFaceLarimerMid.jpeg",
     sex: "male",
+    brand: "TheNorthFace",
+    color: "Темно-коричневый",
   },
   {
     id: 12,
@@ -89,6 +111,8 @@ const sneakData = [
     price: 33000,
     imageUrl: "/sneakers/Timberland6InchPremiumBoot.jpeg",
     sex: "male",
+    brand: "Timberland",
+    color: "Рыжий",
   },
   {
     id: 13,
@@ -96,6 +120,8 @@ const sneakData = [
     price: 18000,
     imageUrl: "/sneakers/martens.jpeg",
     sex: "female",
+    brand: "DrMartens",
+    color: "Черный",
   },
   {
     id: 14,
@@ -103,6 +129,8 @@ const sneakData = [
     price: 12500,
     imageUrl: "/sneakers/blaze.jpeg",
     sex: "female",
+    brand: "Nike",
+    color: "Белый",
   },
   {
     id: 15,
@@ -110,13 +138,17 @@ const sneakData = [
     price: 16000,
     imageUrl: "/sneakers/conv.jpeg",
     sex: "female",
+    brand: "Converse",
+    color: "Черный",
   },
   {
     id: 16,
-    title: "Кроссовки Air Max 95",
+    title: "Кроссовки Air Max 90",
     price: 22000,
     imageUrl: "/sneakers/air.jpeg",
     sex: "female",
+    brand: "Nike",
+    color: "Белый",
   },
   {
     id: 17,
@@ -124,6 +156,8 @@ const sneakData = [
     price: 13000,
     imageUrl: "/sneakers/duble.jpeg",
     sex: "female",
+    brand: "Vans",
+    color: "Черный",
   },
   {
     id: 18,
@@ -131,6 +165,8 @@ const sneakData = [
     price: 13000,
     imageUrl: "/sneakers/dunks.jpeg",
     sex: "female",
+    brand: "Nike",
+    color: "Белый",
   },
   {
     id: 18,
@@ -138,6 +174,8 @@ const sneakData = [
     price: 12000,
     imageUrl: "/sneakers/vanslow.jpeg",
     sex: "male",
+    brand: "Vans",
+    color: "Черный",
   },
   {
     id: 19,
@@ -145,6 +183,8 @@ const sneakData = [
     price: 11000,
     imageUrl: "/sneakers/vansSk8Low.jpeg",
     sex: "male",
+    brand: "Vans",
+    color: "Белый",
   },
 ];
 // router.get("/import", async function (req, res) {
@@ -157,7 +197,9 @@ const sneakData = [
 //           title: sneaker.title as string,
 //           imageUrl: sneaker.imageUrl as string,
 //           price: sneaker.price as number,
-//           sex: sneaker.sex as string
+//           sex: sneaker.sex as string,
+//           color: sneaker.color as string,
+//           brand: sneaker.brand as string,
 //         })),
 //       });
 //       console.log('Data imported successfully');
