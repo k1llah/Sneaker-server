@@ -8,48 +8,67 @@ datasource db {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
-  email      String   @unique
-  hash       String   @map("password_hash")
-  uuid       String   @default(uuid())
-  first_name  String?  @db.VarChar(35)
-  last_name  String?  @db.VarChar(35)
+  id         Int           @id @default(autoincrement())
+  email      String        @unique
+  hash       String        @map("password_hash")
+  uuid       String        @default(uuid())
+  first_name String?       @db.VarChar(35)
+  last_name  String?       @db.VarChar(35)
   age        Int?
-  gender     Gender   @default(notSelected)
-  role       Role     @default(USER)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  is_active  Boolean  @default(false)
-  profile     Profile?
-  Favorite   SneakerData[] 
+  gender     Gender        @default(notSelected)
+  role       Role          @default(USER)
+  created_at DateTime      @default(now())
+  updated_at DateTime      @updatedAt
+  is_active  Boolean       @default(false)
+  profile    Profile?
+  Favorite   SneakerData[]
   orders     orders[]
-  feedbacks   feedback[]
+  feedbacks  feedback[]
+  adress     adress[]
 
   @@map("users")
 }
+
 model feedback {
-  id Int @id @default(autoincrement())
-  authorId Int @unique
-  feedBackText String 
-  user  User @relation(fields: [authorId], references: [id])
+  id           Int    @id @default(autoincrement())
+  authorId     Int    @unique
+  feedBackText String
+  user         User   @relation(fields: [authorId], references: [id])
 }
 
 model SneakerData {
-  id             Int      @id @default(autoincrement())
-  title          String   @unique
-  sneakerId      Int? 
+  id             Int     @id @default(autoincrement())
+  title          String  @unique
+  sneakerId      Int?
   imageUrl       String
   price          Int
-  sex            sexShoe 
+  sex            sexShoe
   color          String
   brand          String
   description    String
   materials      String
   countryMade    String
-  typeOfSneakers Type     @default(all)
-  isAvailabile   Boolean  @default(true)
-  user           User[]  
+  typeOfSneakers Type    @default(all)
+  isAvailabile   Boolean @default(true)
+  user           User[]
+
   @@map("SneakInfo")
+}
+
+model adress {
+  id             Int     @id @default(autoincrement())
+  userId         Int
+  firstName      String
+  lastName       String
+  surname        String?
+  phoneNumber    String
+  city           String
+  postCode       String
+  street         String
+  buildingNumber String
+  houseNumber    String
+  apartament     String
+  user            User @relation(fields: [userId], references: [id])
 }
 
 model goods {
