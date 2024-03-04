@@ -43,6 +43,9 @@ model SneakerData {
   sex            sexShoe 
   color          String
   brand          String
+  description    String
+  materials      String
+  countryMade    String
   typeOfSneakers Type     @default(all)
   isAvailabile   Boolean  @default(true)
   user           User[]  
