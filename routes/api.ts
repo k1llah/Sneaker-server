@@ -354,6 +354,7 @@ router.post("/get-data", async function (req, res) {
         first_name: true,
         last_name: true,
         email: true,
+        profileImg: true,
       },
     });
 
