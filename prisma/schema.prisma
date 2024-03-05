@@ -12,8 +12,8 @@ model User {
   email      String        @unique
   hash       String        @map("password_hash")
   uuid       String        @default(uuid())
-  first_name String?       @db.VarChar(35)
-  last_name  String?       @db.VarChar(35)
+  first_name  String        @db.VarChar(35)
+  last_name  String        @default("Не указано") @db.VarChar(35)
   profileImg  String        @default("prof.jpeg")
   age        Int?
   gender     Gender        @default(notSelected)
@@ -21,11 +21,11 @@ model User {
   created_at DateTime      @default(now())
   updated_at DateTime      @updatedAt
   is_active  Boolean       @default(false)
-  profile    Profile?
+  profile     Profile?
   Favorite   SneakerData[]
   orders     orders[]
   feedbacks  feedback[]
-  address     address[]
+  address    address[]
 
   @@map("users")
 }
@@ -59,7 +59,7 @@ model SneakerData {
 model address {
   id             Int     @id @default(autoincrement())
   userId         Int
-  firstName       String
+  firstName      String
   lastName       String
   surname        String?
   phoneNumber    String
@@ -69,7 +69,7 @@ model address {
   buildingNumber String?
   houseNumber    String
   apartament     String
-  user            User @relation(fields: [userId], references: [id])
+  user           User    @relation(fields: [userId], references: [id])
 }
 
 model goods {

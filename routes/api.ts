@@ -495,4 +495,26 @@ router.post('/favorites-user', async (req, res) => {
     res.status(500).send(typeof(idSneak))
   }
   })
+
+  router.post('/edit-profile', async function(req,res){
+    const dataToUpdate = req.body
+    try{
+      const data = await prisma.user.update({
+        where:{
+          id: +dataToUpdate.id,
+          uuid: dataToUpdate.uuid
+        },
+        data: {
+          first_name: dataToUpdate.first_name,
+          last_name: dataToUpdate.last_name,
+          email: dataToUpdate.email,
+          profileImg: dataToUpdate.profileImg
+        }
+      })
+      res.status(200).send(data)
+    }catch(error){
+      console.log(error)
+      res.status(500).send(error)
+    }
+  })
 export default router;
