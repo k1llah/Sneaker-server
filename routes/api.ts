@@ -497,7 +497,9 @@ router.post('/favorites-user', async (req, res) => {
   })
 
   router.post('/edit-profile', async function(req,res){
-    const dataToUpdate = req.body
+    const dataToUpdate = JSON.parse(req.body.data)
+    console.log(dataToUpdate)
+    console.log(req.body.images)
     try{
       const data = await prisma.user.update({
         where:{
@@ -508,7 +510,7 @@ router.post('/favorites-user', async (req, res) => {
           first_name: dataToUpdate.first_name,
           last_name: dataToUpdate.last_name,
           email: dataToUpdate.email,
-          profileImg: dataToUpdate.profileImg
+          profileImg: req.body.images[0]?.newName
         }
       })
       res.status(200).send(data)
@@ -518,3 +520,4 @@ router.post('/favorites-user', async (req, res) => {
     }
   })
 export default router;
+
