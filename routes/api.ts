@@ -393,6 +393,32 @@ router.post("/add-to-favorites", async function (req, res) {
   }
 });
 
+// router.post("/add-to-cart", async function (req, res) {
+//   try {
+//     const { userId, sneakerId } = req.body;
+
+//     const updatedUser = await prisma.user.update({
+//       where: { id: parseInt(userId) },
+//       data: {
+//         Favorite: {
+//           connect: { id: Number(sneakerId) },
+//         },
+//       },
+//       include: {
+//         Favorite: true,
+//       },
+//     });
+
+//     res.status(200).json({ success: true, user: updatedUser });
+//   } catch (error) {
+//     console.error("Ошибка при добавлении кроссовка в избранное:", error);
+//     res.status(500).json({
+//       success: false,
+//       message: "Произошла ошибка при добавлении кроссовка в избранное",
+//     });
+//   }
+// });
+
 
 
 router.post('/favorites-user', async (req, res) => {
@@ -519,5 +545,9 @@ router.post('/favorites-user', async (req, res) => {
       res.status(500).send(error)
     }
   })
+
+
+
+  
 export default router;
 

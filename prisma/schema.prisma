@@ -23,13 +23,14 @@ model User {
   is_active  Boolean       @default(false)
   profile     Profile?
   Favorite   SneakerData[]
+  //псина ругается поччему то
+  // Cart       SneakerData[]
   orders     orders[]
   feedbacks  feedback[]
   address    address[]
 
   @@map("users")
 }
-
 model feedback {
   id           Int    @id @default(autoincrement())
   authorId     Int    @unique
@@ -64,7 +65,7 @@ model address {
   surname        String?
   phoneNumber    String
   city           String
-  postCode       String
+  postalCode     String
   street         String
   buildingNumber String?
   houseNumber    String
