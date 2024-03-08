@@ -28,9 +28,18 @@ model User {
   orders     orders[]
   feedbacks  feedback[]
   address    address[]
-
+  cart       cart?
   @@map("users")
 }
+
+
+model cart {
+  id Int    @id @default(autoincrement())
+  userId Int    @unique
+  items SneakerData[]
+  user  User? @relation(fields: [userId], references: [id])
+}
+
 model feedback {
   id           Int    @id @default(autoincrement())
   authorId     Int    @unique
@@ -52,7 +61,9 @@ model SneakerData {
   countryMade    String
   typeOfSneakers Type    @default(all)
   isAvailabile   Boolean @default(true)
-  user           User[]
+  user     User[] 
+  cart           cart[]
+  // @relation('fav')
 
   @@map("SneakInfo")
 }
