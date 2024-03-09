@@ -573,7 +573,79 @@ router.post('/favorites-user', async (req, res) => {
     console.log(dataToCreate, error)
   }
   })
-
-
+  router.post('/get-addresses', async (req,res)=>{
+    const userId = req.body.userId
+    try{
+      const addresses = await prisma.address.findMany({
+        where:{
+          userId: parseInt(userId)
+        }
+      })
+      res.status(200).send(addresses)
+    }catch(error){
+      console.log(error)
+      res.status(500).send(error)
+    }
+  })
+  router.post('/get-address', async (req,res)=>{
+    const userId = req.body.userId
+    try{
+      const address = await prisma.address.findFirst({
+        where:{
+          id: parseInt(req.body.addressId),
+          userId: parseInt(userId)
+        }
+      })
+      res.status(200).send(address)
+    }catch(error){
+      console.log(error)
+      res.status(500).send(error)
+    }
+  })
+  router.post('/update-address', async (req,res)=>{
+    const dataToUpdate = req.body
+    try{
+    const dataUpdate = await prisma.address.update({
+      where:{
+        id: parseInt(dataToUpdate.id),
+        userId: parseInt(dataToUpdate.userId)
+      },
+      data:{
+        firstName: dataToUpdate.firstName,
+        lastName:dataToUpdate.lastName,
+        surname:dataToUpdate.surname,
+        phoneNumber:dataToUpdate.phoneNumber,
+        buildingNumber:dataToUpdate.buildingNumber,
+        houseNumber:dataToUpdate.houseNumber,
+        apartment:dataToUpdate.apartment,
+        postalCode:dataToUpdate.postalCode,
+        city: dataToUpdate.city,
+        street: dataToUpdate.street, 
+      }
+    })
+    res.status(200).send(dataUpdate)
+    console.log('Successfully updated address')
+  }catch(error){
+    console.log(error)
+    res.status(500).send(error)
+  }
+  })
+  router.post('/delete-address', async (req,res)=>{
+    const dataToDelete = req.body
+    console.log('Data to delete:', dataToDelete); 
+    try{
+      const deleteAddress = await prisma.address.delete({
+        where:{
+          id: dataToDelete.id,
+          userId: parseInt(dataToDelete.userId)
+        }
+      })
+      res.status(200).send(deleteAddress)
+      console.log('Successfully deleted address')
+    }catch(error){
+      console.log(error)
+      res.status(500).send(error)
+    }
+  })
 export default router;
 
