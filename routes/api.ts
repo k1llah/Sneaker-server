@@ -546,8 +546,34 @@ router.post('/favorites-user', async (req, res) => {
     }
   })
 
+  router.post('/create-address', async (req,res)=>{
+    const dataToCreate = req.body
+    
+    try{
+    const create = await prisma.address.create({
+      data: {
+        userId: parseInt(dataToCreate.userId),
+        firstName: dataToCreate.firstName,
+        lastName:dataToCreate.lastName,
+        surname:dataToCreate.surname,
+        phoneNumber:dataToCreate.phoneNumber,
+        buildingNumber:dataToCreate.buildingNumber,
+        houseNumber:dataToCreate.houseNumber,
+        apartment:dataToCreate.apartment,
+        postalCode:dataToCreate.postalCode,
+        city: dataToCreate.city,
+        street: dataToCreate.street, 
+
+      },
+    })
+    res.status(200).send(create)
+    console.log('Successfully created address')
+  }catch(error){
+    res.status(400).send(error)
+    console.log(dataToCreate, error)
+  }
+  })
 
 
-  
 export default router;
 

@@ -12,32 +12,30 @@ model User {
   email      String        @unique
   hash       String        @map("password_hash")
   uuid       String        @default(uuid())
-  first_name  String        @db.VarChar(35)
+  first_name String        @db.VarChar(35)
   last_name  String        @default("Не указано") @db.VarChar(35)
-  profileImg  String        @default("prof.jpeg")
+  profileImg String        @default("prof.jpeg")
   age        Int?
   gender     Gender        @default(notSelected)
   role       Role          @default(USER)
   created_at DateTime      @default(now())
   updated_at DateTime      @updatedAt
   is_active  Boolean       @default(false)
-  profile     Profile?
+  profile    Profile?
   Favorite   SneakerData[]
-  //псина ругается поччему то
-  // Cart       SneakerData[]
   orders     orders[]
   feedbacks  feedback[]
   address    address[]
   cart       cart?
+
   @@map("users")
 }
 
-
 model cart {
-  id Int    @id @default(autoincrement())
-  userId Int    @unique
-  items SneakerData[]
-  user  User? @relation(fields: [userId], references: [id])
+  id     Int           @id @default(autoincrement())
+  userId Int           @unique
+  items  SneakerData[]
+  user   User?         @relation(fields: [userId], references: [id])
 }
 
 model feedback {
@@ -61,7 +59,7 @@ model SneakerData {
   countryMade    String
   typeOfSneakers Type    @default(all)
   isAvailabile   Boolean @default(true)
-  user     User[] 
+  user           User[]
   cart           cart[]
   // @relation('fav')
 
@@ -71,16 +69,16 @@ model SneakerData {
 model address {
   id             Int     @id @default(autoincrement())
   userId         Int
-  firstName      String
+  firstName       String
   lastName       String
   surname        String?
   phoneNumber    String
   city           String
-  postalCode     String
+  postalCode     Int
   street         String
   buildingNumber String?
-  houseNumber    String
-  apartament     String
+  houseNumber    Int
+  apartment      Int
   user           User    @relation(fields: [userId], references: [id])
 }
 
