@@ -674,7 +674,29 @@ router.post('/favorites-user', async (req, res) => {
   //   }
   // });
   router.post('/createFeedback', async (req, res) => {
-    
+    const data = req.body
+    try{
+    const createFeedback = await prisma.feedback.create({
+      data:{
+      id: data.id,     
+      authorId: data.authorId, 
+      authorName: data.authorName,    
+      feedBackText: data.feedBackText,
+      }
+    })
+    res.status(200).send(createFeedback)
+    console.log('Successfully created feedback')
+  } catch(error){
+    res.status(500).send(error)
+    console.log(error)
+  }
+  })
+  router.get('/getFeedback', async (req, res) => {
+    const feedback = await prisma.feedback.findMany({
+      where:{
+        isModerated: true
+      },
+    })
   })
 export default router;
 
