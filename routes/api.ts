@@ -393,34 +393,6 @@ router.post("/add-to-favorites", async function (req, res) {
   }
 });
 
-// router.post("/add-to-cart", async function (req, res) {
-//   try {
-//     const { userId, sneakerId } = req.body;
-
-//     const updatedUser = await prisma.user.update({
-//       where: { id: parseInt(userId) },
-//       data: {
-//         Favorite: {
-//           connect: { id: Number(sneakerId) },
-//         },
-//       },
-//       include: {
-//         Favorite: true,
-//       },
-//     });
-
-//     res.status(200).json({ success: true, user: updatedUser });
-//   } catch (error) {
-//     console.error("Ошибка при добавлении кроссовка в избранное:", error);
-//     res.status(500).json({
-//       success: false,
-//       message: "Произошла ошибка при добавлении кроссовка в избранное",
-//     });
-//   }
-// });
-
-
-
 router.post('/favorites-user', async (req, res) => {
   const idUser = req.body.id
   try{
@@ -630,6 +602,7 @@ router.post('/favorites-user', async (req, res) => {
     res.status(500).send(error)
   }
   })
+
   router.post('/delete-address', async (req,res)=>{
     const dataToDelete = req.body
     console.log('Data to delete:', dataToDelete); 
@@ -646,6 +619,62 @@ router.post('/favorites-user', async (req, res) => {
       console.log(error)
       res.status(500).send(error)
     }
+  })
+  // router.post('/add-to-cart', async (req, res) => {
+  //   const userData = req.body;
+  
+  //   try {
+   
+  //     const user = await prisma.user.findUnique({
+  //       where: {
+  //         id: parseInt(userData.userId)
+  //       },
+  //       include: {
+  //         cart: true // Включаем корзину пользователя
+  //       }
+  //     });
+  
+  //     if (!user) {
+  //       return res.status(404).send("Пользователь не найден");
+  //     }
+  
+      
+  //     const sneakerData = await prisma.sneakerData.findUnique({
+  //       where: {
+  //         id: userData.sneakerId
+  //       }
+  //     });
+  
+  //     if (!sneakerData) {
+  //       return res.status(404).send("Информация о кроссовке не найдена");
+  //     }
+  
+  //     // Добавим кроссовок в корзину пользователя
+  //     const updatedUser = await prisma.user.update({
+  //       where: {
+  //         id: userData.userId
+  //       },
+  //       data: {
+  //         cart: {
+  //           connect: {
+  //             id: userData.id // Подключаем кроссовок к корзине
+  //           }
+  //         }
+  //       },
+  //       include: {
+  //         cart: true // Включаем обновленную корзину пользователя
+  //       }
+  //     });
+  
+  //     res.status(200).send(updatedUser.cart);
+  //     console.log('Кроссовок успешно добавлен в корзину');
+  //   } catch (error) {
+  //     console.log(error);
+  //     res.status(500).send("Ошибка сервера");
+  //   }
+  // });
+  router.post('/createFeedback', async (req, res) => {
+    
   })
 export default router;
 
