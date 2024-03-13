@@ -730,8 +730,7 @@ router.post('/favorites-user', async (req, res) => {
     const createFeedback = await prisma.feedback.create({
       data:{
       id: data.id,     
-      authorId: data.authorId, 
-      authorName: data.authorName,    
+      authorId: data.authorId,    
       feedBackText: data.feedBackText,
       }
     })
