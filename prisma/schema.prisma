@@ -41,7 +41,6 @@ model cart {
 model feedback {
   id           Int    @id @default(autoincrement())
   authorId     Int    @unique
-  authorName   String
   feedBackText String
   dateCreated  DateTime @default(now())
   isModerated  Boolean @default(false)

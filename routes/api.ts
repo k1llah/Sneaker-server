@@ -650,21 +650,36 @@ router.post('/favorites-user', async (req, res) => {
   //     }
   
   //     // Добавим кроссовок в корзину пользователя
-  //     const updatedUser = await prisma.user.update({
+  //     const updatedUser = await prisma.cart.update({
   //       where: {
-  //         id: userData.userId
+  //         userId: userData.userId
   //       },
   //       data: {
-  //         cart: {
+  //         items: {
   //           connect: {
-  //             id: userData.id // Подключаем кроссовок к корзине
+  //             id: userData.sneakerId // Подключаем кроссовок к корзине
   //           }
-  //         }
+  //         } 
   //       },
   //       include: {
-  //         cart: true // Включаем обновленную корзину пользователя
+  //         items: true // Включаем обновленную корзину пользователя
   //       }
   //     });
+  //     // const updatedUser = await prisma.user.update({
+  //     //   where: {
+  //     //     id: userData.userId
+  //     //   },
+  //     //   data: {
+  //     //     cart: {
+  //     //       connect: {
+  //     //         id: userData.sneakerId // Подключаем кроссовок к корзине
+  //     //       }
+  //     //     }
+  //     //   },
+  //     //   include: {
+  //     //     cart: true // Включаем обновленную корзину пользователя
+  //     //   }
+  //     // });
   
   //     res.status(200).send(updatedUser.cart);
   //     console.log('Кроссовок успешно добавлен в корзину');
@@ -673,6 +688,42 @@ router.post('/favorites-user', async (req, res) => {
   //     res.status(500).send("Ошибка сервера");
   //   }
   // });
+    router.post('/add-to-cart', async (req, res) => {
+      const data = req.body
+      
+      try{
+        const addTo = await prisma.cart.upsert({
+          where: {
+            userId: parseInt(data.userId)
+          },
+          update: {
+            items: {
+              connect: {
+                id: data.sneakerId
+              }
+            }
+          },
+          create: {
+            userId: parseInt(data.userId),
+            items: {
+              connect: {
+                id: data.sneakerId
+              }
+            }
+          },
+          include: {
+            items: true
+          }
+        });
+        res.status(200).send(addTo);
+        console.log('Successfully added to cart', addTo.items);
+      } catch(error) {
+        console.error(error);
+        res.status(500).send("Internal server error");
+      }
+    })
+
+
   router.post('/createFeedback', async (req, res) => {
     const data = req.body
     try{
