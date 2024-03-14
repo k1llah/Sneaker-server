@@ -716,13 +716,30 @@ router.post('/favorites-user', async (req, res) => {
           }
         });
         res.status(200).send(addTo);
-        console.log('Successfully added to cart', addTo.items);
+        console.log('Successfully added to cart');
       } catch(error) {
         console.error(error);
         res.status(500).send("Internal server error");
       }
     })
-
+    router.post('/get-cart-items', async (req, res) => {
+      const dataUser = req.body
+      try{
+        const dataCart = await prisma.cart.findUnique({
+          where: {
+            userId: parseInt(dataUser.userId)
+          },
+          include: {
+            items: true
+          }
+        })
+        res.status(200).send(dataCart)
+        console.log('Successfully got cart items', dataCart)
+      } catch(error){
+        res.status(500).send(error)
+        console.log(error)
+      }
+    })
 
   router.post('/createFeedback', async (req, res) => {
     const data = req.body
