@@ -475,29 +475,21 @@ router.post('/favorites-user', async (req, res) => {
   router.get('/sneaker', async function(req,res){
     const idParam = req.query.id as string
     let idSneak = parseInt(idParam)
-    
-    if (isNaN(idSneak)) {
-      return res.status(400).send('Invalid sneaker ID');
-  }
-
     try{
     const data = await prisma.sneakerData.findUnique({
       where:{
         id: idSneak,
       },
     })
-    console.log(data)
     res.status(200).send(data)
   } catch(error){
-    console.log(typeof(idSneak))
+    console.log(typeof(idSneak), error)
     res.status(500).send(typeof(idSneak))
   }
   })
 
   router.post('/edit-profile', async function(req,res){
     const dataToUpdate = JSON.parse(req.body.data)
-    console.log(dataToUpdate)
-    console.log(req.body.images)
     try{
       const data = await prisma.user.update({
         where:{
@@ -605,7 +597,7 @@ router.post('/favorites-user', async (req, res) => {
 
   router.post('/delete-address', async (req,res)=>{
     const dataToDelete = req.body
-    console.log('Data to delete:', dataToDelete); 
+    
     try{
       const deleteAddress = await prisma.address.delete({
         where:{
@@ -620,74 +612,6 @@ router.post('/favorites-user', async (req, res) => {
       res.status(500).send(error)
     }
   })
-  // router.post('/add-to-cart', async (req, res) => {
-  //   const userData = req.body;
-  
-  //   try {
-   
-  //     const user = await prisma.user.findUnique({
-  //       where: {
-  //         id: parseInt(userData.userId)
-  //       },
-  //       include: {
-  //         cart: true // Включаем корзину пользователя
-  //       }
-  //     });
-  
-  //     if (!user) {
-  //       return res.status(404).send("Пользователь не найден");
-  //     }
-  
-      
-  //     const sneakerData = await prisma.sneakerData.findUnique({
-  //       where: {
-  //         id: userData.sneakerId
-  //       }
-  //     });
-  
-  //     if (!sneakerData) {
-  //       return res.status(404).send("Информация о кроссовке не найдена");
-  //     }
-  
-  //     // Добавим кроссовок в корзину пользователя
-  //     const updatedUser = await prisma.cart.update({
-  //       where: {
-  //         userId: userData.userId
-  //       },
-  //       data: {
-  //         items: {
-  //           connect: {
-  //             id: userData.sneakerId // Подключаем кроссовок к корзине
-  //           }
-  //         } 
-  //       },
-  //       include: {
-  //         items: true // Включаем обновленную корзину пользователя
-  //       }
-  //     });
-  //     // const updatedUser = await prisma.user.update({
-  //     //   where: {
-  //     //     id: userData.userId
-  //     //   },
-  //     //   data: {
-  //     //     cart: {
-  //     //       connect: {
-  //     //         id: userData.sneakerId // Подключаем кроссовок к корзине
-  //     //       }
-  //     //     }
-  //     //   },
-  //     //   include: {
-  //     //     cart: true // Включаем обновленную корзину пользователя
-  //     //   }
-  //     // });
-  
-  //     res.status(200).send(updatedUser.cart);
-  //     console.log('Кроссовок успешно добавлен в корзину');
-  //   } catch (error) {
-  //     console.log(error);
-  //     res.status(500).send("Ошибка сервера");
-  //   }
-  // });
     router.post('/add-to-cart', async (req, res) => {
       const data = req.body
       
@@ -734,13 +658,37 @@ router.post('/favorites-user', async (req, res) => {
           }
         })
         res.status(200).send(dataCart)
-        console.log('Successfully got cart items', dataCart)
+        
       } catch(error){
         res.status(500).send(error)
         console.log(error)
       }
     })
-
+    router.post('/remove-from-cart', async (req, res) => {
+      const data = req.body
+      try{
+        const removeFrom = await prisma.cart.update({
+          where: {
+            userId: parseInt(data.userId)
+          },
+          data: {
+            items: {
+              disconnect: {
+                id: data.sneakerId
+              }
+            }
+          },
+          include: {
+            items: true
+          }
+        })
+        res.status(200).send(removeFrom)
+        console.log('Successfully removed from cart')
+      } catch(error){
+        res.status(500).send(error)
+        console.log(error)
+      }
+    })
   router.post('/createFeedback', async (req, res) => {
     const data = req.body
     try{
