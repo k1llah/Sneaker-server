@@ -482,6 +482,7 @@ router.post('/favorites-user', async (req, res) => {
       },
     })
     res.status(200).send(data)
+    console.log(data)
   } catch(error){
     console.log(typeof(idSneak), error)
     res.status(500).send(typeof(idSneak))

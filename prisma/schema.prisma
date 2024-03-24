@@ -12,18 +12,18 @@ model User {
   email      String        @unique
   hash       String        @map("password_hash")
   uuid       String        @default(uuid())
-  first_name String        @db.VarChar(35)
+  first_name  String        @db.VarChar(35)
   last_name  String        @default("Не указано") @db.VarChar(35)
-  profileImg String        @default("prof.jpeg")
+  profileImg  String        @default("prof.jpeg")
   age        Int?
   gender     Gender        @default(notSelected)
   role       Role          @default(USER)
   created_at DateTime      @default(now())
   updated_at DateTime      @updatedAt
   is_active  Boolean       @default(false)
-  profile    Profile?
+  profile     Profile?
   Favorite   SneakerData[]
-  orders     orders[]
+  order      order[]
   feedbacks  feedback[]
   address    address[]
   cart       cart?
@@ -39,12 +39,12 @@ model cart {
 }
 
 model feedback {
-  id           Int    @id @default(autoincrement())
-  authorId     Int    @unique
+  id           Int      @id @default(autoincrement())
+  authorId     Int      @unique
   feedBackText String
   dateCreated  DateTime @default(now())
-  isModerated  Boolean @default(false)
-  user         User   @relation(fields: [authorId], references: [id])
+  isModerated  Boolean  @default(false)
+  user         User     @relation(fields: [authorId], references: [id])
 }
 
 model SneakerData {
@@ -61,8 +61,11 @@ model SneakerData {
   countryMade    String
   typeOfSneakers Type    @default(all)
   isAvailabile   Boolean @default(true)
-  user           User[]
-  cart           cart[]
+
+  user  User[]
+  cart  cart[]
+  order order[]
+
   @@map("SneakInfo")
 }
 
@@ -82,28 +85,47 @@ model address {
   user           User    @relation(fields: [userId], references: [id])
 }
 
-model goods {
-  id        Int            @id @default(autoincrement())
-  name      String         @db.VarChar(255)
-  price     Float
-  orderLine orders_table[]
+// model goods {
+//   id        Int            @id @default(autoincrement())
+//   name      String         @db.VarChar(255)
+//   price     Float
+//   orderLine orders_table[]
+// }
+
+// model orders {
+//   id        Int            @id @default(autoincrement())
+//   userId    Int
+//   user      User           @relation(fields: [userId], references: [id])
+//   full_name String         @db.VarChar(255)
+//   orderLine orders_table[]
+// }
+
+// model orders_table {
+//   id          Int     @id @default(autoincrement())
+//   goods_id    Int
+//   goods_price Float
+//   order_id    Int
+//   order       orders  @relation(fields: [order_id], references: [id])
+//   goods       goods[]
+// }
+model order {
+  id            Int         @id @default(autoincrement())
+  userId        Int
+  user          User        @relation(fields: [userId], references: [id])
+  createdAt     DateTime    @default(now())
+  status        OrderStatus @default(PENDING)
+  sneakerDataId Int
+  sneakerData   SneakerData @relation(fields: [sneakerDataId], references: [id])
+  amount        Float
+  addressId     Int?
 }
 
-model orders {
-  id        Int            @id @default(autoincrement())
-  userId    Int
-  user      User           @relation(fields: [userId], references: [id])
-  full_name String         @db.VarChar(255)
-  orderLine orders_table[]
-}
-
-model orders_table {
-  id          Int     @id @default(autoincrement())
-  goods_id    Int
-  goods_price Float
-  order_id    Int
-  order       orders  @relation(fields: [order_id], references: [id])
-  goods       goods[]
+enum OrderStatus {
+  PREPAIRING 
+  PENDING
+  COMPLETED
+  RECEIVED
+  CANCELED
 }
 
 enum sexShoe {
