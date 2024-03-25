@@ -118,6 +118,7 @@ model order {
   sneakerDataId Int
   sneakerData   SneakerData @relation(fields: [sneakerDataId], references: [id])
   amount        Float
+  payStatus     Boolean     
   addressId     Int?
   address       address?    @relation(fields: [addressId], references: [id])
 }
