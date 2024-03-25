@@ -83,6 +83,7 @@ model address {
   houseNumber    Int
   apartment      Int
   user           User    @relation(fields: [userId], references: [id])
+  order          order[] 
 }
 
 // model goods {
@@ -118,6 +119,7 @@ model order {
   sneakerData   SneakerData @relation(fields: [sneakerDataId], references: [id])
   amount        Float
   addressId     Int?
+  address       address?    @relation(fields: [addressId], references: [id])
 }
 
 enum OrderStatus {
