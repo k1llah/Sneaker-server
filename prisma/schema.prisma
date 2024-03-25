@@ -53,7 +53,7 @@ model SneakerData {
   sneakerId      Int?
   imageUrl       String
   price          Int
-  sex            sexShoe
+  sex            SexShoe
   color          String
   brand          String
   description    String
@@ -111,6 +111,7 @@ model address {
 // }
 model order {
   id            Int         @id @default(autoincrement())
+  orderNumber   String      @unique @default(uuid())
   userId        Int
   user          User        @relation(fields: [userId], references: [id])
   createdAt     DateTime    @default(now())
@@ -118,7 +119,7 @@ model order {
   sneakerDataId Int
   sneakerData   SneakerData @relation(fields: [sneakerDataId], references: [id])
   amount        Float
-  payStatus     Boolean     
+  payStatus     PayStatus
   addressId     Int?
   address       address?    @relation(fields: [addressId], references: [id])
 }
@@ -126,12 +127,17 @@ model order {
 enum OrderStatus {
   PREPAIRING 
   PENDING
+  SENDED
   COMPLETED
   RECEIVED
   CANCELED
 }
-
-enum sexShoe {
+enum PayStatus {
+  success 
+  whenReceived
+  failed
+}
+enum SexShoe {
   male
   female
   unisex

@@ -714,5 +714,65 @@ router.post('/favorites-user', async (req, res) => {
       },
     })
   })
+
+  router.post('/create-new-order', async(req,res)=>{
+    const dataOrder = req.body
+    if(dataOrder.addressId == 0){
+      dataOrder.addressId = null
+      console.log(dataOrder.addressId)
+    }
+    const id = parseInt(dataOrder.userId)
+    const sneakerId = parseInt(dataOrder.sneakerDataId)
+    try{
+      const createOrder = await prisma.order.create({
+        data:{
+          userId: id,
+          sneakerDataId: sneakerId,
+          addressId: dataOrder.addressId,
+          amount: dataOrder.amount,
+          payStatus: dataOrder.PayStatus,
+          status: dataOrder.status,
+        }
+      })
+      
+      const disconnectCart = await prisma.cart.update({
+        where: {
+          userId: id
+        },
+        data: {
+          items: {
+            disconnect: {
+              id: sneakerId
+            }
+          }
+        },
+        include: {
+          items: true
+        }
+      })
+      res.status(200).send(createOrder)
+      console.log(createOrder)
+      
+    } catch(error){
+      res.status(500).send(error)
+      console.log(error, 'Smth went wrong', dataOrder.id)
+    }
+  })
+  router.post('/get-orders', async(req,res)=>{
+    const dataOrder = req.body
+    try{
+      const getData = await prisma.order.findMany({
+        where:{
+          userId: dataOrder.userId,
+          status: {
+            notIn: ['RECEIVED','CANCELED']
+          }
+        }
+      })
+    } catch(error){
+      res.status(500).send(error)
+      console.log(error, 'Smth went wrong')
+    }
+  })
 export default router;
 
