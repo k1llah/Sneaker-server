@@ -122,6 +122,7 @@ model order {
   payStatus     PayStatus
   addressId     Int?
   address       address?    @relation(fields: [addressId], references: [id])
+  orderMessage  String?
 }
 
 enum OrderStatus {

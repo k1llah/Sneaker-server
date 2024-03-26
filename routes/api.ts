@@ -732,6 +732,7 @@ router.post('/favorites-user', async (req, res) => {
           amount: dataOrder.amount,
           payStatus: dataOrder.PayStatus,
           status: dataOrder.status,
+          orderMessage: dataOrder.orderMessage,
         }
       })
       
@@ -752,7 +753,7 @@ router.post('/favorites-user', async (req, res) => {
       })
       res.status(200).send(createOrder)
       console.log(createOrder)
-      
+
     } catch(error){
       res.status(500).send(error)
       console.log(error, 'Smth went wrong', dataOrder.id)
