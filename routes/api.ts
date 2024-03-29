@@ -776,12 +776,12 @@ router.post('/favorites-user', async (req, res) => {
     }
   })
 
-  router.post('/sneakersToOrder', async(req,res)=>{
+  router.post('/sneakers-to-order', async(req,res)=>{
     const dataItems = req.body
     try{
       const postData = await prisma.sneakerData.findMany({
         where:{
-          id: dataItems.id
+          id: {in: dataItems.id}
         }
       })
       res.status(200).send(postData)
