@@ -775,5 +775,21 @@ router.post('/favorites-user', async (req, res) => {
       console.log(error, 'Smth went wrong')
     }
   })
+
+  router.post('/sneakersToOrder', async(req,res)=>{
+    const dataItems = req.body
+    try{
+      const postData = await prisma.sneakerData.findMany({
+        where:{
+          id: dataItems.id
+        }
+      })
+      res.status(200).send(postData)
+      console.log('successfully get items to order')
+    } catch(error){
+      console.log(error)
+      res.status(500).send(error)
+    }
+  })
 export default router;
 
