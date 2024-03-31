@@ -722,7 +722,7 @@ router.post('/favorites-user', async (req, res) => {
       console.log(dataOrder.addressId)
     }
     const id = parseInt(dataOrder.userId)
-    const sneakerId = parseInt(dataOrder.sneakerDataId)
+    const sneakerId = dataOrder.sneakerDataId
     try{
       const createOrder = await prisma.order.create({
         data:{
@@ -733,22 +733,6 @@ router.post('/favorites-user', async (req, res) => {
           payStatus: dataOrder.PayStatus,
           status: dataOrder.status,
           orderMessage: dataOrder.orderMessage,
-        }
-      })
-      
-      const disconnectCart = await prisma.cart.update({
-        where: {
-          userId: id
-        },
-        data: {
-          items: {
-            disconnect: {
-              id: sneakerId
-            }
-          }
-        },
-        include: {
-          items: true
         }
       })
       res.status(200).send(createOrder)

@@ -116,8 +116,8 @@ model order {
   user          User        @relation(fields: [userId], references: [id])
   createdAt     DateTime    @default(now())
   status        OrderStatus @default(PENDING)
-  sneakerDataId Int
-  sneakerData   SneakerData @relation(fields: [sneakerDataId], references: [id])
+  sneakerDataId Int[]
+  sneakerData   SneakerData @relation(fields: [id], references: [id])
   amount        Float
   payStatus     PayStatus
   addressId     Int?
