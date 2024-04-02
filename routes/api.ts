@@ -751,9 +751,21 @@ router.post('/favorites-user', async (req, res) => {
           userId: dataOrder.userId,
           status: {
             notIn: ['RECEIVED','CANCELED']
-          }
-        }
+          },
+          sneakerData:{
+            id:{
+              in:dataOrder.sneakerDataId,
+            },
+          },
+        },
+       include: {
+        sneakerData: true,
+        },
+      
+        
       })
+      res.status(200).send(getData)
+      console.log(getData, 'successfully get orders')
     } catch(error){
       res.status(500).send(error)
       console.log(error, 'Smth went wrong')
