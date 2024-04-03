@@ -41,9 +41,10 @@ model cart {
 model feedback {
   id           Int      @id @default(autoincrement())
   authorId     Int      @unique
-  feedBackText String
+  messageFeedback String
   dateCreated  DateTime @default(now())
   isModerated  Boolean  @default(false)
+  imageFeedback String
   user         User     @relation(fields: [authorId], references: [id])
 }
 
