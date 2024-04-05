@@ -799,6 +799,7 @@ router.post("/create-feedback", async (req, res) => {
         userId: parseInt(data.userId),
         messageFeedback: data.messageFeedback,
         imageFeedback: imageFeedback,
+        authorName: data.authorName,
       },
     });
     console.log(imageFeedback)
