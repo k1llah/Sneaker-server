@@ -12,19 +12,19 @@ model User {
   email      String        @unique
   hash       String        @map("password_hash")
   uuid       String        @default(uuid())
-  first_name  String        @db.VarChar(35)
+  first_name String         @db.VarChar(35)
   last_name  String        @default("Не указано") @db.VarChar(35)
-  profileImg  String        @default("prof.jpeg")
+  profileImg String         @default("prof.jpeg")
   age        Int?
   gender     Gender        @default(notSelected)
   role       Role          @default(USER)
   created_at DateTime      @default(now())
   updated_at DateTime      @updatedAt
   is_active  Boolean       @default(false)
-  profile     Profile?
+  profile    Profile?
   Favorite   SneakerData[]
   order      order[]
-  feedbacks  feedback[]
+  feedback  feedback[]
   address    address[]
   cart       cart?
 
@@ -39,13 +39,13 @@ model cart {
 }
 
 model feedback {
-  id           Int      @id @default(autoincrement())
-  authorId     Int      @unique
+  id              Int      @id @default(autoincrement())
+  userId          Int      
   messageFeedback String
-  dateCreated  DateTime @default(now())
-  isModerated  Boolean  @default(false)
-  imageFeedback String
-  user         User     @relation(fields: [authorId], references: [id])
+  dateCreated     DateTime @default(now())
+  isModerated     Boolean  @default(false)
+  imageFeedback   String
+  user            User     @relation(fields: [userId], references: [id])
 }
 
 model SneakerData {
@@ -73,7 +73,7 @@ model SneakerData {
 model address {
   id             Int     @id @default(autoincrement())
   userId         Int
-  firstName       String
+  firstName      String
   lastName       String
   surname        String?
   phoneNumber    String
@@ -84,7 +84,7 @@ model address {
   houseNumber    Int
   apartment      Int
   user           User    @relation(fields: [userId], references: [id])
-  order          order[] 
+  order          order[]
 }
 
 // model goods {
@@ -112,7 +112,7 @@ model address {
 // }
 model order {
   id            Int         @id @default(autoincrement())
-  orderNumber   String      @unique @default(uuid()) 
+  orderNumber   String      @unique @default(uuid())
   userId        Int
   user          User        @relation(fields: [userId], references: [id])
   createdAt     DateTime    @default(now())
@@ -127,18 +127,20 @@ model order {
 }
 
 enum OrderStatus {
-  PREPAIRING 
+  PREPAIRING
   PENDING
   SENDED
   COMPLETED
   RECEIVED
   CANCELED
 }
+
 enum PayStatus {
-  success 
+  success
   whenReceived
   failed
 }
+
 enum SexShoe {
   male
   female

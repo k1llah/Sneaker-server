@@ -792,15 +792,16 @@ router.post("/sneakers-to-order", async (req, res) => {
 
 router.post("/create-feedback", async (req, res) => {
   const data = req.body;
+  let imageFeedback = req.body.images[0]?.newName;
   try {
     const createFeedback = await prisma.feedback.create({
       data: {
-        user: data.userId,
-        authorId: data.authorId,
-        messageFeedback: data.message,
-        imageFeedback: req.body.images[0]?.newName,
+        userId: parseInt(data.userId),
+        messageFeedback: data.messageFeedback,
+        imageFeedback: imageFeedback,
       },
     });
+    console.log(imageFeedback)
     res.status(200).send(createFeedback);
     console.log("Successfully created feedback");
   } catch (error) {
