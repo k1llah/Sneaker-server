@@ -46,6 +46,7 @@ model feedback {
   dateCreated     DateTime @default(now())
   isModerated     Boolean  @default(false)
   imageFeedback   String?
+  rating          Int
   user            User     @relation(fields: [userId], references: [id])
 }
 

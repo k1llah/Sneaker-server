@@ -801,6 +801,7 @@ router.post("/create-feedback", async (req, res) => {
         messageFeedback: data.messageFeedback,
         imageFeedback: imageFeedback,
         authorName: data.authorName,
+        rating: parseInt(data.rating),
       },
     });
     console.log(imageFeedback)
