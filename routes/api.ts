@@ -812,11 +812,20 @@ router.post("/create-feedback", async (req, res) => {
     console.log(error);
   }
 });
-router.get("/getFeedback", async (req, res) => {
+router.get("/get-feedback", async (req, res) => {
+  try{
   const feedback = await prisma.feedback.findMany({
+
+    
     where: {
       isModerated: true,
     },
   });
+  res.status(200).send(feedback)
+  console.log("successfully get feedback")
+} catch(error){
+  console.log(error)
+  res.status(500).send(error)
+}
 });
 export default router;
