@@ -793,7 +793,7 @@ router.post("/sneakers-to-order", async (req, res) => {
 
 router.post("/create-feedback", async (req, res) => {
   const data = req.body;
-  let imageFeedback = req.body.images[0]?.newName;
+  let imageFeedback = req.body.images?.newName;
   try {
     const createFeedback = await prisma.feedback.create({
       data: {
@@ -815,10 +815,56 @@ router.post("/create-feedback", async (req, res) => {
 router.get("/get-feedback", async (req, res) => {
   try{
   const feedback = await prisma.feedback.findMany({
-
-    
     where: {
       isModerated: true,
+    },
+  });
+  res.status(200).send(feedback)
+  console.log("successfully get feedback")
+} catch(error){
+  console.log(error)
+  res.status(500).send(error)
+}
+});
+router.get("/get-feedback-to-moderate", async (req, res) => {
+  try{
+  const feedback = await prisma.feedback.findMany({
+    where: {
+      isModerated: false,
+    },
+  });
+  res.status(200).send(feedback)
+  console.log("successfully get feedback")
+} catch(error){
+  console.log(error)
+  res.status(500).send(error)
+}
+});
+router.post("/moderate-feedback", async (req, res) => {
+  const data = req.body
+  try{
+  const feedback = await prisma.feedback.update({
+    where: {
+      id: data.id,
+      isModerated: data.isModerated
+    },
+   data: {
+     isModerated: true
+   },
+  });
+  res.status(200).send(feedback)
+  console.log("successfully get feedback")
+} catch(error){
+  console.log(error)
+  res.status(500).send(error)
+}
+});
+router.post("/delete-feedback", async (req, res) => {
+  const data = req.body
+  try{
+  const feedback = await prisma.feedback.delete({
+    where: {
+      id: data.id
     },
   });
   res.status(200).send(feedback)
