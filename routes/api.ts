@@ -793,7 +793,7 @@ router.post("/sneakers-to-order", async (req, res) => {
 
 router.post("/create-feedback", async (req, res) => {
   const data = req.body;
-  let imageFeedback = req.body.images?.newName;
+  let imageFeedback = req.body.images[0]?.newName;
   try {
     const createFeedback = await prisma.feedback.create({
       data: {
