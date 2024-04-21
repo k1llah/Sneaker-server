@@ -88,30 +88,6 @@ model address {
   user           User    @relation(fields: [userId], references: [id])
   order          order[]
 }
-
-// model goods {
-//   id        Int            @id @default(autoincrement())
-//   name      String         @db.VarChar(255)
-//   price     Float
-//   orderLine orders_table[]
-// }
-
-// model orders {
-//   id        Int            @id @default(autoincrement())
-//   userId    Int
-//   user      User           @relation(fields: [userId], references: [id])
-//   full_name String         @db.VarChar(255)
-//   orderLine orders_table[]
-// }
-
-// model orders_table {
-//   id          Int     @id @default(autoincrement())
-//   goods_id    Int
-//   goods_price Float
-//   order_id    Int
-//   order       orders  @relation(fields: [order_id], references: [id])
-//   goods       goods[]
-// }
 model order {
   id            Int         @id @default(autoincrement())
   orderNumber   String      @unique @default(uuid())
@@ -126,6 +102,11 @@ model order {
   addressId     Int?
   address       address?    @relation(fields: [addressId], references: [id])
   orderMessage  String?     @db.VarChar(150)
+}
+
+model post {
+  id  Int @id @default(autoincrement())
+  
 }
 
 enum OrderStatus {
