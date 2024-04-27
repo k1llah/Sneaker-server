@@ -104,10 +104,14 @@ model order {
   orderMessage  String?     @db.VarChar(150)
 }
 
-model post {
-  id  Int @id @default(autoincrement())
+model postIdeas{
+  id            Int         @id @default(autoincrement())
+  name          String      
+  email         String
+  ideaText      String
   
 }
+
 
 enum OrderStatus {
   PREPAIRING
