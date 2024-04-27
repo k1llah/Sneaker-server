@@ -874,4 +874,21 @@ router.post("/delete-feedback", async (req, res) => {
   res.status(500).send(error)
 }
 });
+router.post("/post-idea", async(req, res) => {
+  const data = req.body
+  try{
+  const idea = await prisma.postIdeas.create({
+    data: {
+      name: data.name,
+      email: data.email,
+      ideaText: data.ideaText,
+    }
+  })
+  res.status(200).send(idea)
+  console.log("successfully get feedback")
+  } catch(error){
+    res.status(500).send(error)
+    console.log(error)
+  }
+})
 export default router;
