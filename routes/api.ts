@@ -891,4 +891,14 @@ router.post("/post-idea", async(req, res) => {
     console.log(error)
   }
 })
+router.get("/get-ideas", async(req, res) => {
+  try{
+    const data = await prisma.postIdeas.findMany()
+    res.status(200).send(data)
+    console.log('success', data)
+  } catch(error){
+    console.log(error)
+    res.status(500).send(error)
+  }
+})
 export default router;
