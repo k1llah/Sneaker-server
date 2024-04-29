@@ -901,4 +901,19 @@ router.get("/get-ideas", async(req, res) => {
     res.status(500).send(error)
   }
 })
+router.post("/delete-idea", async(req, res) => {
+  const dataReq = req.body
+  try{
+    const data = await prisma.postIdeas.delete({
+      where: {
+        id: dataReq.id
+      }
+    })
+    console.log('Delete idea', data)
+    res.status(200).send(data)
+  }catch(error){
+    console.log(error)
+    res.status(500).send(error)
+  }
+})
 export default router;
