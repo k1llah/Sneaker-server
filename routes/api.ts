@@ -723,6 +723,26 @@ router.post("/remove-from-cart", async (req, res) => {
     console.log(error);
   }
 });
+router.post('/clear-cart', async (req, res) => {
+  const data = req.body;
+  try {
+    const clearCart = await prisma.cart.update({
+      where: {
+        userId: parseInt(data.userId),
+      },
+      data: {
+        items: {
+          set: [],
+        },
+      },
+    });
+    res.status(200).send(clearCart);
+    console.log('Successfully cleared cart');
+  } catch (error) {
+    res.status(500).send(error);
+    console.log(error);
+  }
+})
 router.post("/create-new-order", async (req, res) => {
   const dataOrder = req.body;
   if (dataOrder.addressId == 0) {
