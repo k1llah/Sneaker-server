@@ -9,7 +9,7 @@ import sharp from 'sharp'
 import routes from '#root/routes/index'
 import apiRoutes from '#root/routes/api'
 import dotenv from 'dotenv'
-import sberbankRoutes from '#root/routes/sberbank';
+
 dotenv.config()
 // import helmet from "helmet"
 
@@ -113,7 +113,6 @@ app.use(bodyParser.json())
 
 app.use(express.static('static'))
 app.use('/api', apiRoutes)
-app.use('/api/sberbank', sberbankRoutes);
 app.use(routes)
 
 // Запуск на проде
